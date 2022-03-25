@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <!-- Code by Maja Elliott -->
-<!-- Last updated: 3/24/2022 -->
-<html style="background-color: #212324;">
-    <!-- Need to figure out how to change font -->
-    <!-- <font face="Helvetica"></font> -->
+<!-- Last updated: 3/25/2022 -->
+<!-- Dark mode toggle doesn't work (3.25) -->
+<!-- Still can't print or save data from input -->
+<html>
     <head>
-        <title style="color: whitesmoke" style="align-content: center;">Country Name Game</title>
+        <style>
+            h1 {text-align: center; font-family:'Courier New', Courier, monospace;}
+            p {font-family: Arial, Helvetica, sans-serif;}
+            h2 {text-align: center; font-family: Arial, Helvetica, sans-serif;}
+            label {font-family: Arial, Helvetica, sans-serif;}
+            body{
+                background-color: #212324;
+                color: whitesmoke;
+            }
+            dark-mode-toggle{
+                background-color: aliceblue;
+                color: black;
+            }
+        </style>
+        <title>Country Name Game</title>
     </head>
     <body>
-        <h1 style="color: whitesmoke">The Country Name Game</h1>
-        <p style="color: whitesmoke">How to play: You will be given a letter and you must enter as many names of countries begingin with that letter as possible.
+        <button onClick="colorMode()">Dark Mode Toggle</button>
+        <h1 style="color: #8fe880">The Country Name Game</h1>
+        <p>How to play: You will be given a letter and you must enter as many names of countries beginning with that letter as possible.
             There's no time limit, so relax and have fun! You get points for every name you get right. Names that are spelled incorrectly 
             are marked in orange and names that aren't on the list will be marked in red.
         </p>
+        <h2>Your letter is: </h2>
         <form>
-            <label for="entrybox" style="color: whitesmoke">Enter guess:</label><br>
+            <label for="entrybox">Enter guess:</label><br>
             <input type="text" id="entrybox" name="entrybox"><br>
-            <button type="button">Submit</button>
-            <button type="button">All Done!</button>
+             <!-- https://tinyurl.com/yavu4fhu -->
+            <input type="submit" value="Submit" onclick="formdata()"><br>
+            <input type="button" value="Done"><br>
 
             <!-- https://stackoverflow.com/questions/59444442/how-to-display-entered-text-in-an-textbox -->
             <!-- <input id="textField" type="text">
@@ -28,5 +45,20 @@
             </p>
             <h3><div id="div"></div></h3> -->
         </form>
+
+        <script>
+            //Dark mode toggle
+            //https://www.geeksforgeeks.org/how-to-make-dark-mode-for-websites-using-html-css-javascript/
+            function colorMode() {
+                var backColor = document.body;
+                var content = document.getElementById("Dark Mode Toggle");
+                backColor.className = "dark-mode-toggle";
+            }
+
+            //Holding the guesses to be printed.
+            let guess = document.getElementById(entrybox);
+
+            
+        </script>
     </body>
 </html>
