@@ -3,7 +3,6 @@
 <!-- Last updated: 4/22/2022 -->
 <!-- Dark mode toggle doesn't work (3.25) -->
 <!-- Need to check country lists (4.25) -->
-<!-- Some countries are marked as wrong even though they're in the array (4.25) -->
 <html>
     <head>
         <style>
@@ -87,12 +86,17 @@
             //adds guess to guess array
             function addGuess() {
                 var guess = document.getElementById("entrybox").value;
+                guess = guess.trim(); //Trims any accidental spaces out of the answer
                 guessList.push(guess);
                 document.getElementById("entrybox").value = "";
             }
 
             //checks if guess is correct
             function checker() {
+              //AUTOMATION IDEA:
+              //ArrayList of the country arrays = masterArray
+              //Get guess letter and assign it a value based on position
+              //Array at that position in the masterArray is the one used
               var correct = new Array();
               var incorrect = new Array();
               var missed = new Array();
