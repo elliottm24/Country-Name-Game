@@ -3,6 +3,7 @@
 <!-- Last updated: 4/22/2022 -->
 <!-- Dark mode toggle doesn't work (3.25) -->
 <!-- Need to check country lists (4.25) -->
+<!-- Some countries are marked as wrong even though they're in the array (4.25) -->
 <html>
     <head>
         <style>
@@ -28,8 +29,10 @@
             There's no time limit, so relax and have fun!
         </p>
         <h2>Your letter is: <span id="guessLetter"></span></h2>
-        <h3 style="color: green"><span id="correctguesses"></span></h3>
-        <h3 style="color: red"><span id="incorrectguesses"></span></h3>
+        <h3 style="color: #8fe880"><span id="correctguesses"></span></h3>
+        <h3 style="color: #fd3838"><span id="incorrectguesses"></span></h3>
+        <h3 style="color: #757575"><span id="missedguesses"></span></h3>
+        <h4><span id="scorePrint"></span></h4>
         <form>
             <label for="entrybox">Enter guess:</label><br>
             <input type="text" id="entrybox" name="entrybox"><br>
@@ -48,7 +51,7 @@
             const bCountries = ["Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brunei", "Bulgaria", "Burkina Faso", "Burundi"]; 
             const cCountries = ["Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Costa Rica", "Cote d'lvoire", "Croatia", "Cuba", "Cyprus", "Czech Republic"];
             const dCountries = ["Democratic Republic of Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic"];
-            const eCountries = ["Timor-Leste", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia"];
+            const eCountries = ["Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia"];
             const fCountries = ["Fiji", "Finland", "Federated States of Micronesia", "France"];
             const gCountries = ["Gabon", "The Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana"];
             const hCountries = ["Haiti", "Holland", "Honduras", "Hungary"];
@@ -63,8 +66,8 @@
             const qCountries = ["Qatar"];
             const rCountries = ["Romania", "Russia", "Rwanda"];
             const sCountries = ["Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Scotland", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria"];
-            const tCountries = ["Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu"];
-            const uCountries = ["Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan"];
+            const tCountries = ["Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu"];
+            const uCountries = ["Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan"];
             const vCountries = ["Vanuatu", "Vatican City", "Venezuela", "Vietnam"];
             const yCountries = ["Yemen"];
             const zCountries = ["Zambia", "Zimbabwe"];
@@ -77,7 +80,7 @@
                 var charsLength = chars.length;
 
                 letter = chars.charAt(Math.floor(Math.random() * charsLength));
-                    
+
                 return letter
             }
 
@@ -92,7 +95,9 @@
             function checker() {
               var correct = new Array();
               var incorrect = new Array();
+              var missed = new Array();
               var i;
+              var nameLength;
               let val = "";
 
               //Each switch case goes to the correct letter then determines if the guess is in the array
@@ -100,6 +105,9 @@
               //Else it's added to the incorrect guesses array
               switch(letter){
                 case "a":
+                  nameLength = aCountries.length; //Saves the number of correct guesses
+
+                  //iterates through guess list for comparison
                   for(i = 0; i < guessList.length; i++){
                       if (aCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -108,8 +116,17 @@
                         incorrect.push(guessList[i]);
                       }
                     } 
+
+                  //Saves missed guesses
+                  for (i = 0; i < aCountries.length; i++){
+                    if (guessList.includes(aCountries[i]) == false){
+                        missed.push(aCountries[i])
+                    }
+                  }
                     break;
                 case "b":
+                  nameLength = bCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (bCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -118,8 +135,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }  
+
+                  for (i = 0; i < bCountries.length; i++){
+                    if (guessList.includes(bCountries[i]) == false){
+                        missed.push(bCountries[i])
+                    }
+                  }
                     break;
                 case "c":
+                  nameLength = cCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (cCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -128,8 +153,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }
+
+                  for (i = 0; i < cCountries.length; i++){
+                    if (guessList.includes(cCountries[i]) == false){
+                        missed.push(cCountries[i])
+                    }
+                  }
                     break;
                 case "d":
+                  nameLength = dCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (dCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -137,9 +170,17 @@
                       else {
                         incorrect.push(guessList[i]);
                       }
-                    }    
+                    }  
+                    
+                  for (i = 0; i < dCountries.length; i++){
+                    if (guessList.includes(dCountries[i]) == false){
+                        missed.push(dCountries[i])
+                    }
+                  }
                     break;
                 case "e":
+                  nameLength = eCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (eCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -148,8 +189,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }  
+
+                  for (i = 0; i < eCountries.length; i++){
+                    if (guessList.includes(eCountries[i]) == false){
+                        missed.push(eCountries[i])
+                    }
+                  }
                     break;
                 case "f":
+                  nameLength = fCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (fCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -158,8 +207,16 @@
                         incorrect.push(guessList[i]);
                       }
                     } 
+
+                  for (i = 0; i < fCountries.length; i++){
+                    if (guessList.includes(fCountries[i]) == false){
+                        missed.push(fCountries[i])
+                    }
+                  }
                     break; 
                 case "g":
+                  nameLength = gCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (gCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -168,8 +225,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }
+
+                  for (i = 0; i < gCountries.length; i++){
+                    if (guessList.includes(gCountries[i]) == false){
+                        missed.push(gCountries[i])
+                    }
+                  }
                     break;
                 case "h":
+                  nameLength = hCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (hCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -178,8 +243,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }    
+
+                  for (i = 0; i < hCountries.length; i++){
+                    if (guessList.includes(hCountries[i]) == false){
+                        missed.push(hCountries[i])
+                    }
+                  }
                     break;
                 case "i":
+                  nameLength = iCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (iCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -188,8 +261,34 @@
                         incorrect.push(guessList[i]);
                       }
                     } 
+
+                  for (i = 0; i < iCountries.length; i++){
+                    if (guessList.includes(iCountries[i]) == false){
+                        missed.push(iCountries[i])
+                    }
+                  }
+                    break;
+                case "j":
+                  nameLength = jCountries.length;
+
+                  for(i = 0; i < guessList.length; i++){
+                      if (jCountries.includes(guessList[i])) {
+                        correct.push(guessList[i]);
+                      }
+                      else {
+                        incorrect.push(guessList[i]);
+                      }
+                    } 
+
+                  for (i = 0; i < jCountries.length; i++){
+                    if (guessList.includes(jCountries[i]) == false){
+                        missed.push(jCountries[i])
+                    }
+                  }
                     break;
                 case "k":
+                  nameLength = kCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (kCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -198,8 +297,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }   
+
+                  for (i = 0; i < kCountries.length; i++){
+                    if (guessList.includes(kCountries[i]) == false){
+                        missed.push(kCountries[i])
+                    }
+                  }
                     break;
                 case "l":
+                  nameLength = lCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (lCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -208,8 +315,16 @@
                       incorrect.push(guessList[i]);
                       }
                     } 
+
+                  for (i = 0; i < aCountries.length; i++){
+                    if (guessList.includes(lCountries[i]) == false){
+                        missed.push(lCountries[i])
+                    }
+                  }
                     break;
                 case "m":
+                  nameLength = mCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (mCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -218,8 +333,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }
+                  
+                  for (i = 0; i < mCountries.length; i++){
+                    if (guessList.includes(mCountries[i]) == false){
+                        missed.push(mCountries[i])
+                    }
+                  }
                     break;   
                 case "n":
+                  nameLength = nCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (nCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -228,8 +351,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }
+
+                  for (i = 0; i < nCountries.length; i++){
+                    if (guessList.includes(nCountries[i]) == false){
+                        missed.push(nCountries[i])
+                    }
+                  }
                     break;
                 case "o":
+                  nameLength = oCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (oCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -238,8 +369,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }    
+
+                  for (i = 0; i < oCountries.length; i++){
+                    if (guessList.includes(oCountries[i]) == false){
+                        missed.push(oCountries[i])
+                    }
+                  }
                     break;
                 case "p":
+                  nameLength = pCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (pCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -248,8 +387,16 @@
                         incorrect.push(guessList[i]);
                       }
                     } 
+
+                  for (i = 0; i < pCountries.length; i++){
+                    if (guessList.includes(pCountries[i]) == false){
+                        missed.push(pCountries[i])
+                    }
+                  }
                     break;
                 case "q":
+                  nameLength = qCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (qCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -258,8 +405,16 @@
                         incorrect.push(guessList[i]);
                       }
                     } 
+
+                  for (i = 0; i < qCountries.length; i++){
+                    if (guessList.includes(qCountries[i]) == false){
+                        missed.push(qCountries[i])
+                    }
+                  }
                     break;
                 case "r":
+                  nameLength = rCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (rCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -267,9 +422,17 @@
                       else {
                         incorrect.push(guessList[i]);
                       }
-                    }  
+                    } 
+                    
+                  for (i = 0; i < rCountries.length; i++){
+                    if (guessList.includes(rCountries[i]) == false){
+                        missed.push(rCountries[i])
+                    }
+                  }
                     break; 
                 case "s":
+                  nameLength = sCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (sCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -278,8 +441,16 @@
                         incorrect.push(guessList[i]);
                       }
                     } 
+                  
+                  for (i = 0; i < sCountries.length; i++){
+                    if (guessList.includes(sCountries[i]) == false){
+                        missed.push(sCountries[i])
+                    }
+                  }
                     break;  
                 case "t":
+                  nameLength = tCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (tCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -288,8 +459,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }  
+
+                  for (i = 0; i < tCountries.length; i++){
+                    if (guessList.includes(tCountries[i]) == false){
+                        missed.push(tCountries[i])
+                    }
+                  }
                     break;
                 case "u":
+                  nameLength = uCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (uCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -298,8 +477,16 @@
                         incorrect.push(guessList[i]);
                       }
                     } 
+
+                  for (i = 0; i < uCountries.length; i++){
+                    if (guessList.includes(uCountries[i]) == false){
+                        missed.push(uCountries[i])
+                    }
+                  }
                     break;
                 case "v":
+                nameLength = vCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (vCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -308,8 +495,16 @@
                         incorrect.push(guessList[i]);
                       }
                     }
+
+                  for (i = 0; i < vCountries.length; i++){
+                    if (guessList.includes(vCountries[i]) == false){
+                        missed.push(vCountries[i])
+                    }
+                  }
                     break;
                 case "y":
+                  nameLength = yCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (yCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -317,9 +512,17 @@
                       else {
                         incorrect.push(guessList[i]);
                       }
-                    }     
+                    }  
+                    
+                  for (i = 0; i < yCountries.length; i++){
+                    if (guessList.includes(yCountries[i]) == false){
+                        missed.push(yCountries[i])
+                    }
+                  }
                     break;
                 case "z":
+                  nameLength = zCountries.length;
+
                   for(i = 0; i < guessList.length; i++){
                       if (zCountries.includes(guessList[i])) {
                         correct.push(guessList[i]);
@@ -328,6 +531,12 @@
                         incorrect.push(guessList[i]);
                       }
                     }  
+
+                  for (i = 0; i < zCountries.length; i++){
+                    if (guessList.includes(zCountries[i]) == false){
+                        missed.push(zCountries[i])
+                    }
+                  }
                     break;
                 default:
                     result = false;
@@ -349,6 +558,30 @@
                 }
                 document.getElementById("incorrectguesses").innerHTML = val;
               }
+
+              val = "";
+              //prints missed guesses
+              if (missed != null) {
+                for (i = 0; i < missed.length; i++) {
+                    val += missed[i] + "<br>";
+                }
+                document.getElementById("missedguesses").innerHTML = val;
+              }
+
+              //Score print out
+              val = "";
+              val += correct.length + " out of " + nameLength + "<br>";
+              //Adds special message depending on score
+              if (correct.length == nameLength){
+                val += "Great work!" + "<br>";
+              }
+              if (correct.length >= (nameLength / 2) && correct.length < nameLength){
+                val += "Almost there!" + "<br>";
+              }
+              if (correct.length < (nameLength / 2)) {
+                val += "Good try! Better luck next time!" + "<br>";
+              }
+              document.getElementById("scorePrint").innerHTML = val;
             }
 
             //Dark mode toggle
